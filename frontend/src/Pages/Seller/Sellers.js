@@ -23,6 +23,7 @@ import {
     updateSeller
 } from './sellerSlice'
 import {useNavigate} from 'react-router-dom'
+import SearchForm from '../../Components/SearchForm/SearchForm'
 
 function Sellers() {
     const {t} = useTranslation(['common'])
@@ -59,6 +60,11 @@ function Sellers() {
     const [sellerPassword, setSellerPassword] = useState('')
     const [sellerAgainPassword, setSellerAgainPassword] = useState('')
     const [currentSeller, setCurrentSeller] = useState('')
+
+    const [startDate, setStartDate] = useState(
+        new Date(new Date().setDate(new Date().getDate() - 10))
+    )
+    const [endDate, setEndDate] = useState(new Date())
 
     // handle Changed inputs
     const addNewSeller = (e) => {
@@ -210,8 +216,11 @@ function Sellers() {
     }, [dispatch, errorSellings, successAddSelling, successUpdateSelling])
 
     useEffect(() => {
-        dispatch(getSellers())
-    }, [dispatch])
+        dispatch(getSellers({
+            startDate,
+            endDate
+        }))
+    }, [dispatch, startDate, endDate])
 
     useEffect(() => {
         setData(sellers)
@@ -332,7 +341,18 @@ function Sellers() {
             <div className='font-normal text-[1.25rem] leading-[1.875rem] text-blue-900 mainPadding'>
                 <p>{t('Sotuvchilar')}</p>
             </div>
-
+            <div className='flex w-full'>
+                    <SearchForm
+                        filterBy={[
+                            'startDate',
+                            'endDate',
+                        ]}
+                        startDate={startDate}
+                        setStartDate={setStartDate}
+                        endDate={endDate}
+                        setEndDate={setEndDate}
+                    />
+            </div>
             <div className='tableContainerPadding'>
                 {loading ? (
                     <Spinner />

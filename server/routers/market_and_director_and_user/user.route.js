@@ -486,9 +486,8 @@ module.exports.createseller = async (req, res) => {
 
 module.exports.getsellers = async (req, res) => {
   try {
-    const { market } = req.body;
+    const { market, startDate, endDate } = req.body;
     const marke = await Market.findById(market);
-
     if (!marke) {
       return res.status(400).json({
         message:
@@ -501,11 +500,15 @@ module.exports.getsellers = async (req, res) => {
       .sort({ _id: -1 })
       .lean()
 
-    let sellerInfo = []
+    
     if (sellers.length > 0) {
       for (const seller of sellers) {
         const sales = await DailySaleConnector.find({
-          user: seller._id
+          user: seller._id,
+          createdAt: {
+            $gte: startDate,
+            $lt: endDate,
+          },
         })
         .select('user payment')
         .populate('payment', 'totalprice totalpriceuzs')

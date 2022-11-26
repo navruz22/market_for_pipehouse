@@ -574,13 +574,13 @@ module.exports.getsaleconnectors = async (req, res) => {
     const saleconnectors = await SaleConnector.find({
       market,
       id,
-      createdAt: {
+      updatedAt: {
         $gte: startDate,
         $lt: endDate,
       },
     })
-      .select('-isArchive -updatedAt -market -__v')
-      .sort({ _id: -1 })
+      .select('-isArchive -market -__v')
+      .sort({ updatedAt: -1 })
       .populate({
         path: 'products',
         select: 'user',
@@ -602,7 +602,7 @@ module.exports.getsaleconnectors = async (req, res) => {
       })
       .populate(
         'payments',
-        'payment paymentuzs comment totalprice totalpriceuzs'
+        'payment paymentuzs comment totalprice totalpriceuzs createdAt'
       )
       .populate(
         'discounts',
@@ -623,12 +623,44 @@ module.exports.getsaleconnectors = async (req, res) => {
         );
       });
 
+    const filteredProductsSale = saleconnectors.map((connector) => {
+      const filterProducts = connector.products.filter((product) => {
+        return (
+          new Date(product.createdAt) > new Date(startDate) &&
+          new Date(product.createdAt) < new Date(endDate)
+        );
+      });
+      const filterPayment = connector.payments.filter((payment) => {
+        return (
+          new Date(payment.createdAt) > new Date(startDate) &&
+          new Date(payment.createdAt) < new Date(endDate)
+        );
+      });
+      return {
+        _id: connector._id,
+        dailyconnectors: connector.dailyconnectors,
+        discounts: connector.discounts,
+        debts: connector.debts,
+        user: connector.user,
+        createdAt: connector.createdAt,
+        updatedAt: connector.updatedAt,
+        client: connector.client,
+        id: connector.id,
+        products: filterProducts,
+        payments: filterPayment,
+      };
+    });
+
     res.status(200).json({
-      saleconnectors: saleconnectors.splice(countPage * currentPage, countPage),
-      count: saleconnectors.length,
+      saleconnectors: filteredProductsSale.splice(
+        countPage * currentPage,
+        countPage
+      ),
+      count: filteredProductsSale.length,
     });
   } catch (error) {
     res.status(400).json({ error: 'Serverda xatolik yuz berdi...' });
+    console.log(error);
   }
 };
 

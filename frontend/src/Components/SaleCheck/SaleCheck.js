@@ -1,7 +1,7 @@
 import React, {forwardRef} from 'react'
 import {useSelector} from 'react-redux'
 import {uniqueId, map} from 'lodash'
-import { FaPhoneAlt, FaTelegramPlane } from 'react-icons/fa'
+import {FaPhoneAlt, FaTelegramPlane} from 'react-icons/fa'
 export const SaleCheck = forwardRef((props, ref) => {
     const {product} = props
     const {market} = useSelector((state) => state.login)
@@ -17,19 +17,6 @@ export const SaleCheck = forwardRef((props, ref) => {
                     <li className='check-ul-li'>
                         Do'kon:
                         <span className='check-ul-li-span'>{market.name}</span>
-                    </li>
-                    <li className='check-ul-li'>
-                        Telefon:
-                        <span className='check-ul-li-span flex flex-col	items-start'>
-                            {market.phone1 && <span className='flex items-center gap-[5px]'>
-                                <FaTelegramPlane style={{fontSize: "12px"}} /> {market.phone1}</span>}
-                            {market.phone2 && <span className='flex items-center gap-[5px]'>
-                               <FaPhoneAlt style={{fontSize: "12px"}} /> {market.phone2}
-                            </span>}
-                            {market.phone3 && <span className='flex items-center gap-[5px]'>
-                            <FaPhoneAlt style={{fontSize: "12px"}} /> {market?.phone3}
-                            </span>}
-                        </span>
                     </li>
                     <li className='check-ul-li'>
                         Manzil:
@@ -52,20 +39,35 @@ export const SaleCheck = forwardRef((props, ref) => {
                         </span>
                     </li>
                 </ul>
-                {market.image && <div className='w-[100px]'>
-                     <img src={`${market?.image}`} alt="logo" />           
-                </div>}
-                <div className='check-ul-li flex-col'>
+                {market.image && (
+                    <div className='w-[100px]'>
+                        <img src={`${market?.image}`} alt='logo' />
+                    </div>
+                )}
+                <div className='check-ul-li flex-col items-end'>
                     <div className={'grow text-center'}>
-                        <h2 className='check-text-style mb-5'>
-                            Sotuv:{' '}
-                            <span className={'ml-2'}>
-                                {product?.saleconnector.id}
-                            </span>
-                        </h2>
-                        <h2 className='check-text-style'>
-                            Chek: {product?.id}
-                        </h2>
+                        <span className='check-ul-li-span flex flex-col	items-start'>
+                            {market.phone1 && (
+                                <span className='flex items-center gap-[5px]'>
+                                    <FaTelegramPlane
+                                        style={{fontSize: '12px'}}
+                                    />{' '}
+                                    {market.phone1}
+                                </span>
+                            )}
+                            {market.phone2 && (
+                                <span className='flex items-center gap-[5px]'>
+                                    <FaPhoneAlt style={{fontSize: '12px'}} />{' '}
+                                    {market.phone2}
+                                </span>
+                            )}
+                            {market.phone3 && (
+                                <span className='flex items-center gap-[5px]'>
+                                    <FaPhoneAlt style={{fontSize: '12px'}} />{' '}
+                                    {market?.phone3}
+                                </span>
+                            )}
+                        </span>
                     </div>
                     <div className='check-ul-li justify-end'>
                         <p>

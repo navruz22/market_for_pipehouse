@@ -51,7 +51,7 @@ export const SaleCheckAll = forwardRef((props, ref) => {
               }, 0)
             : 0
     }
-
+    console.log(selled)
     return (
         <div ref={ref} className={'bg-white-900 p-4 rounded-md'}>
             <div className='flex pb-2 justify-between items-center border-b-[0.8px] border-black-700'>
@@ -157,7 +157,9 @@ export const SaleCheckAll = forwardRef((props, ref) => {
                                             ).toLocaleDateString()}
                                         </td>
                                         <td className='check-table-body text-center'>
-                                            {item?.product?.productdata?.code}
+                                            {item?.product?.category?.code +
+                                                item?.product?.productdata
+                                                    ?.code}
                                         </td>
                                         <td className='check-table-body text-start'>
                                             {item?.product?.productdata?.name}
@@ -243,10 +245,9 @@ export const SaleCheckAll = forwardRef((props, ref) => {
                                                 ).toLocaleDateString()}
                                             </td>
                                             <td className='check-table-body'>
-                                                {
+                                                {item?.product?.category?.code +
                                                     item?.product?.productdata
-                                                        ?.code
-                                                }
+                                                        ?.code}
                                             </td>
                                             <td className='check-table-body'>
                                                 {

@@ -3,5 +3,5 @@
   "mongoUri": "mongodb://localhost/market-2",
   "jwtSecret": "market",
   "baseUrl": "http://localhost:8801"
-}
+} 
    

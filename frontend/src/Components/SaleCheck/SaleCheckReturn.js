@@ -1,7 +1,7 @@
 import React, {forwardRef} from 'react'
 import {useSelector} from 'react-redux'
 import {uniqueId, map} from 'lodash'
-import { FaPhoneAlt, FaTelegramPlane } from 'react-icons/fa'
+import {FaPhoneAlt, FaTelegramPlane} from 'react-icons/fa'
 
 export const SaleCheckReturn = forwardRef((props, ref) => {
     const {product} = props
@@ -20,19 +20,6 @@ export const SaleCheckReturn = forwardRef((props, ref) => {
                         <span className='check-ul-li-span'>{market.name}</span>
                     </li>
                     <li className='check-ul-li'>
-                        Telefon:
-                        <span className='check-ul-li-span flex flex-col	items-start'>
-                            {market.phone1 && <span className='flex items-center gap-[5px]'>
-                                <FaTelegramPlane style={{fontSize: "12px"}} /> {market.phone1}</span>}
-                            {market.phone2 && <span className='flex items-center gap-[5px]'>
-                               <FaPhoneAlt style={{fontSize: "12px"}} /> {market.phone2}
-                            </span>}
-                            {market.phone3 && <span className='flex items-center gap-[5px]'>
-                            <FaPhoneAlt style={{fontSize: "12px"}} /> {market?.phone3}
-                            </span>}
-                        </span>
-                    </li>
-                    <li className='check-ul-li'>
                         Manzil:
                         <span className='check-ul-li-span'>
                             {market?.address}
@@ -41,7 +28,12 @@ export const SaleCheckReturn = forwardRef((props, ref) => {
                     <li className='check-ul-li'>
                         Sana:
                         <span className='check-ul-li-span'>
-                            {new Date(product?.createdAt).toLocaleDateString()}
+                            {new Date(product?.createdAt).toLocaleDateString()}{' '}
+                            <span className='ml-3'>
+                                {new Date(
+                                    product?.createdAt
+                                ).toLocaleTimeString()}
+                            </span>
                         </span>
                     </li>
                     <li className='check-ul-li'>
@@ -53,23 +45,41 @@ export const SaleCheckReturn = forwardRef((props, ref) => {
                         </span>
                     </li>
                 </ul>
-                <div className='check-ul-li flex-col'>
+                {market.image && (
+                    <div className='w-[100px]'>
+                        <img src={`${market?.image}`} alt='logo' />
+                    </div>
+                )}
+                <div className='check-ul-li flex-col items-end'>
                     <div className={'grow text-center'}>
-                        <h2 className='check-text-style mb-5'>
-                            Sotuv:{' '}
-                            <span className={'ml-2'}>
-                                {product?.saleconnector.id}
-                            </span>
-                        </h2>
-                        <h2 className='check-text-style'>
-                            Chek: {product?.id}
-                        </h2>
+                        <span className='check-ul-li-span flex flex-col	items-start'>
+                            {market.phone1 && (
+                                <span className='flex items-center gap-[5px]'>
+                                    <FaTelegramPlane
+                                        style={{fontSize: '12px'}}
+                                    />{' '}
+                                    {market.phone1}
+                                </span>
+                            )}
+                            {market.phone2 && (
+                                <span className='flex items-center gap-[5px]'>
+                                    <FaPhoneAlt style={{fontSize: '12px'}} />{' '}
+                                    {market.phone2}
+                                </span>
+                            )}
+                            {market.phone3 && (
+                                <span className='flex items-center gap-[5px]'>
+                                    <FaPhoneAlt style={{fontSize: '12px'}} />{' '}
+                                    {market?.phone3}
+                                </span>
+                            )}
+                        </span>
                     </div>
                     <div className='check-ul-li justify-end'>
                         <p>
                             Sotuvchi:{' '}
                             <span className='check-ul-li-span'>
-                                {user.firstname} {user.lastname}
+                                {user?.firstname} {user?.lastname}
                             </span>
                         </p>
                     </div>
@@ -95,7 +105,8 @@ export const SaleCheckReturn = forwardRef((props, ref) => {
                                         {index + 1}
                                     </td>
                                     <td className='check-table-body text-end'>
-                                        {item?.product?.productdata?.code}
+                                        {item?.product?.category?.code +
+                                            item?.product?.productdata?.code}
                                     </td>
                                     <td className='check-table-body text-start'>
                                         {item?.product?.productdata?.name}

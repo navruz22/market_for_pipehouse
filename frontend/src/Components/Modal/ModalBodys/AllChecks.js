@@ -60,7 +60,6 @@ function AllCheck({product}) {
         )
         setUserInfo(product?.user)
     }, [product])
-
     return (
         <section className='w-[27cm] mt-4 mx-auto'>
             {loadContent && (

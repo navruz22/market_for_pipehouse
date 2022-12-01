@@ -100,7 +100,8 @@ export const SaleCheck = forwardRef((props, ref) => {
                                         {index + 1}
                                     </td>
                                     <td className='check-table-body text-center'>
-                                        {item?.product?.productdata?.code}
+                                        {item?.product?.category?.code +
+                                            item?.product?.productdata?.code}
                                     </td>
                                     <td className='check-table-body text-start'>
                                         {item?.product?.productdata?.name}

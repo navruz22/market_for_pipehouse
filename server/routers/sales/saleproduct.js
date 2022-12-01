@@ -253,6 +253,16 @@ module.exports.register = async (req, res) => {
 
     const connector = await DailySaleConnector.findById(dailysaleconnector._id)
       .select('-isArchive -updatedAt -market -__v')
+
+      .populate({
+        path: 'products',
+        select: 'product',
+        populate: {
+          path: 'product',
+          select: 'category',
+          populate: { path: 'category', select: 'code' },
+        },
+      })
       .populate({
         path: 'products',
         select: 'totalprice unitprice totalpriceuzs unitpriceuzs pieces',
@@ -587,6 +597,15 @@ module.exports.getsaleconnectors = async (req, res) => {
         populate: {
           path: 'user',
           select: 'firstname lastname',
+        },
+      })
+      .populate({
+        path: 'products',
+        select: 'product',
+        populate: {
+          path: 'product',
+          select: 'category',
+          populate: { path: 'category', select: 'code' },
         },
       })
       .populate({

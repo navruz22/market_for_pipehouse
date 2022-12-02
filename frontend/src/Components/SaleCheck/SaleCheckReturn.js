@@ -98,38 +98,48 @@ export const SaleCheckReturn = forwardRef((props, ref) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {map(product?.products, (item, index) => {
-                            return (
-                                <tr key={uniqueId('sale-check-return')}>
-                                    <td className='text-center check-table-body'>
-                                        {index + 1}
-                                    </td>
-                                    <td className='check-table-body text-end'>
-                                        {item?.product?.category?.code +
-                                            item?.product?.productdata?.code}
-                                    </td>
-                                    <td className='check-table-body text-start'>
-                                        {item?.product?.productdata?.name}
-                                    </td>
-                                    <td className='check-table-body'>
-                                        {item?.pieces}
-                                    </td>
-                                    <td className='check-table-body'>
-                                        {currencyType === 'USD'
-                                            ? item?.unitprice
-                                            : item?.unitpriceuzs}{' '}
-                                        {currencyType}
-                                    </td>
-                                    <td className='check-table-body'>
-                                        {(currencyType === 'USD'
-                                            ? item?.totalprice
-                                            : item?.totalpriceuzs
-                                        ).toLocaleString('ru-RU')}{' '}
-                                        {currencyType}
-                                    </td>
-                                </tr>
-                            )
-                        })}
+                        {map(
+                            product?.products.sort(
+                                (a, b) =>
+                                    a?.product?.category?.code -
+                                        b?.product?.category?.code &&
+                                    a?.product?.productdata?.code -
+                                        b?.product?.productdata?.code
+                            ),
+                            (item, index) => {
+                                return (
+                                    <tr key={uniqueId('sale-check-return')}>
+                                        <td className='text-center check-table-body'>
+                                            {index + 1}
+                                        </td>
+                                        <td className='check-table-body text-end'>
+                                            {item?.product?.category?.code +
+                                                item?.product?.productdata
+                                                    ?.code}
+                                        </td>
+                                        <td className='check-table-body text-start'>
+                                            {item?.product?.productdata?.name}
+                                        </td>
+                                        <td className='check-table-body'>
+                                            {item?.pieces}
+                                        </td>
+                                        <td className='check-table-body'>
+                                            {currencyType === 'USD'
+                                                ? item?.unitprice
+                                                : item?.unitpriceuzs}{' '}
+                                            {currencyType}
+                                        </td>
+                                        <td className='check-table-body'>
+                                            {(currencyType === 'USD'
+                                                ? item?.totalprice
+                                                : item?.totalpriceuzs
+                                            ).toLocaleString('ru-RU')}{' '}
+                                            {currencyType}
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                        )}
                     </tbody>
                 </table>
             </div>

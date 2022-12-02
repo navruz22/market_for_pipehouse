@@ -145,37 +145,45 @@ export const SavedSalesCheck = forwardRef((props, ref) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {map(product?.products, (item, index) => {
-                                return (
-                                    <tr key={uniqueId('saved-table-row')}>
-                                        <td className='p-1 border text-center text-[0.875rem] font-bold'>
-                                            {index + 1}
-                                        </td>
-                                        <td className='check-table-body text-center'>
-                                            {item?.product?.category?.code +
-                                                item?.product?.code}
-                                        </td>
-                                        <td className='check-table-body text-start'>
-                                            {item?.product?.name}
-                                        </td>
-                                        <td className='check-table-body'>
-                                            {item?.pieces}
-                                        </td>
-                                        <td className='check-table-body'>
-                                            {currencyType === 'USD'
-                                                ? item?.unitprice
-                                                : item?.unitpriceuzs}{' '}
-                                            {currencyType}
-                                        </td>
-                                        <td className='check-table-body'>
-                                            {currencyType === 'USD'
-                                                ? item?.totalprice
-                                                : item?.totalpriceuzs}{' '}
-                                            {currencyType}
-                                        </td>
-                                    </tr>
-                                )
-                            })}
+                            {map(
+                                [...product.products].sort(
+                                    (a, b) =>
+                                        a.product?.category?.code.localeCompare(
+                                            b.product?.category?.code
+                                        ) || a.product?.code - b.product?.code
+                                ),
+                                (item, index) => {
+                                    return (
+                                        <tr key={uniqueId('saved-table-row')}>
+                                            <td className='p-1 border text-center text-[0.875rem] font-bold'>
+                                                {index + 1}
+                                            </td>
+                                            <td className='check-table-body text-center'>
+                                                {item?.product?.category?.code +
+                                                    item?.product?.code}
+                                            </td>
+                                            <td className='check-table-body text-start'>
+                                                {item?.product?.name}
+                                            </td>
+                                            <td className='check-table-body'>
+                                                {item?.pieces}
+                                            </td>
+                                            <td className='check-table-body'>
+                                                {currencyType === 'USD'
+                                                    ? item?.unitprice
+                                                    : item?.unitpriceuzs}{' '}
+                                                {currencyType}
+                                            </td>
+                                            <td className='check-table-body'>
+                                                {currencyType === 'USD'
+                                                    ? item?.totalprice
+                                                    : item?.totalpriceuzs}{' '}
+                                                {currencyType}
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                            )}
                         </tbody>
                     </table>
                 </div>

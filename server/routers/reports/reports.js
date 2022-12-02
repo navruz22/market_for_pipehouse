@@ -676,10 +676,16 @@ module.exports.getBackProducts = async (req, res) => {
           {
             path: 'product',
             select: 'productdata',
-            populate: {
-              path: 'productdata',
-              select: 'code name',
-            },
+            populate: [
+              {
+                path: 'productdata',
+                select: 'code name',
+              },
+              {
+                path: 'category',
+                select: 'code',
+              },
+            ],
           },
           {
             path: 'user',

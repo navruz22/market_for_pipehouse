@@ -4,6 +4,7 @@ import {uniqueId, map} from 'lodash'
 import {FaPhoneAlt, FaTelegramPlane} from 'react-icons/fa'
 export const SaleCheck = forwardRef((props, ref) => {
     const {product} = props
+    const {products} = product
     const {market} = useSelector((state) => state.login)
     const {currencyType} = useSelector((state) => state.currency)
     const calculateDebt = (total, payment, discount = 0) => {
@@ -93,37 +94,48 @@ export const SaleCheck = forwardRef((props, ref) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {map(product?.products, (item, index) => {
-                            return (
-                                <tr key={uniqueId('saleCheck')}>
-                                    <td className='check-table-body text-center'>
-                                        {index + 1}
-                                    </td>
-                                    <td className='check-table-body text-center'>
-                                        {item?.product?.category?.code +
-                                            item?.product?.productdata?.code}
-                                    </td>
-                                    <td className='check-table-body text-start'>
-                                        {item?.product?.productdata?.name}
-                                    </td>
-                                    <td className='check-table-body'>
-                                        {item?.pieces}
-                                    </td>
-                                    <td className='check-table-body'>
-                                        {currencyType === 'USD'
-                                            ? item?.unitprice
-                                            : item?.unitpriceuzs}{' '}
-                                        {currencyType}
-                                    </td>
-                                    <td className='check-table-body'>
-                                        {currencyType === 'USD'
-                                            ? item?.totalprice
-                                            : item?.totalpriceuzs}{' '}
-                                        {currencyType}
-                                    </td>
-                                </tr>
-                            )
-                        })}
+                        {map(
+                            [...products].sort(
+                                (a, b) =>
+                                    a.product?.category?.code.localeCompare(
+                                        b.product?.category?.code
+                                    ) ||
+                                    a.product?.productdata?.code -
+                                        b.product?.productdata?.code
+                            ),
+                            (item, index) => {
+                                return (
+                                    <tr key={uniqueId('saleCheck')}>
+                                        <td className='check-table-body text-center'>
+                                            {index + 1}
+                                        </td>
+                                        <td className='check-table-body text-center'>
+                                            {item?.product?.category?.code +
+                                                item?.product?.productdata
+                                                    ?.code}
+                                        </td>
+                                        <td className='check-table-body text-start'>
+                                            {item?.product?.productdata?.name}
+                                        </td>
+                                        <td className='check-table-body'>
+                                            {item?.pieces}
+                                        </td>
+                                        <td className='check-table-body'>
+                                            {currencyType === 'USD'
+                                                ? item?.unitprice
+                                                : item?.unitpriceuzs}{' '}
+                                            {currencyType}
+                                        </td>
+                                        <td className='check-table-body'>
+                                            {currencyType === 'USD'
+                                                ? item?.totalprice
+                                                : item?.totalpriceuzs}{' '}
+                                            {currencyType}
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                        )}
                     </tbody>
                 </table>
             </div>

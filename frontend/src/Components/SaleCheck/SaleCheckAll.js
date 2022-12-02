@@ -145,58 +145,71 @@ export const SaleCheckAll = forwardRef((props, ref) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {map(selled, (item, index) => {
-                                return (
-                                    <tr key={uniqueId('selled-row')}>
-                                        <td className='check-table-body text-center'>
-                                            {index + 1}
-                                        </td>
-                                        <td className='check-table-body'>
-                                            {new Date(
-                                                item?.createdAt
-                                            ).toLocaleDateString()}
-                                        </td>
-                                        <td className='check-table-body text-center'>
-                                            {item?.product?.category?.code +
-                                                item?.product?.productdata
-                                                    ?.code}
-                                        </td>
-                                        <td className='check-table-body text-start'>
-                                            {item?.product?.productdata?.name}
-                                        </td>
-                                        <td className='check-table-body'>
-                                            {item?.pieces}
-                                        </td>
-                                        <td className='check-table-body'>
-                                            {currencyType === 'USD'
-                                                ? item?.unitprice.toLocaleString(
-                                                      'ru-Ru'
-                                                  )
-                                                : item?.unitpriceuzs.toLocaleString(
-                                                      'ru-Ru'
-                                                  )}{' '}
-                                            {currencyType}
-                                        </td>
-                                        <td className='check-table-body'>
-                                            {currencyType === 'USD'
-                                                ? item?.totalprice.toLocaleString(
-                                                      'ru-Ru'
-                                                  )
-                                                : item?.totalpriceuzs.toLocaleString(
-                                                      'ru-Ru'
-                                                  )}{' '}
-                                            {currencyType}
-                                        </td>
-                                        <td className='check-table-body'>
-                                            {item?.user
-                                                ? item.user.firstname +
-                                                  ' ' +
-                                                  item.user.lastname[0]
-                                                : ''}
-                                        </td>
-                                    </tr>
-                                )
-                            })}
+                            {map(
+                                selled.sort(
+                                    (a, b) =>
+                                        a.product?.category?.code.localeCompare(
+                                            b.product?.category?.code
+                                        ) ||
+                                        a.product?.productdata?.code -
+                                            b.product?.productdata?.code
+                                ),
+                                (item, index) => {
+                                    return (
+                                        <tr key={uniqueId('selled-row')}>
+                                            <td className='check-table-body text-center'>
+                                                {index + 1}
+                                            </td>
+                                            <td className='check-table-body'>
+                                                {new Date(
+                                                    item?.createdAt
+                                                ).toLocaleDateString()}
+                                            </td>
+                                            <td className='check-table-body text-center'>
+                                                {item?.product?.category?.code +
+                                                    item?.product?.productdata
+                                                        ?.code}
+                                            </td>
+                                            <td className='check-table-body text-start'>
+                                                {
+                                                    item?.product?.productdata
+                                                        ?.name
+                                                }
+                                            </td>
+                                            <td className='check-table-body'>
+                                                {item?.pieces}
+                                            </td>
+                                            <td className='check-table-body'>
+                                                {currencyType === 'USD'
+                                                    ? item?.unitprice.toLocaleString(
+                                                          'ru-Ru'
+                                                      )
+                                                    : item?.unitpriceuzs.toLocaleString(
+                                                          'ru-Ru'
+                                                      )}{' '}
+                                                {currencyType}
+                                            </td>
+                                            <td className='check-table-body'>
+                                                {currencyType === 'USD'
+                                                    ? item?.totalprice.toLocaleString(
+                                                          'ru-Ru'
+                                                      )
+                                                    : item?.totalpriceuzs.toLocaleString(
+                                                          'ru-Ru'
+                                                      )}{' '}
+                                                {currencyType}
+                                            </td>
+                                            <td className='check-table-body'>
+                                                {item?.user
+                                                    ? item.user.firstname +
+                                                      ' ' +
+                                                      item.user.lastname[0]
+                                                    : ''}
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                            )}
                         </tbody>
                     </table>
                 </div>

@@ -761,6 +761,7 @@ const RegisterSelling = () => {
                   )
                 : allProducts.find((obj) => obj._id === option.value)
             if (product.total === 0) return warningCountSellPayment()
+            console.log(product)
             const currentProduct = {
                 total: product.total,
                 product: {
@@ -768,6 +769,10 @@ const RegisterSelling = () => {
                     code: product.productdata.code,
                     name: product.productdata.name,
                     barcode: product.productdata.barcode,
+                    category: {
+                        _id: product?._id,
+                        code: product?.category?.code,
+                    },
                 },
                 totalprice: product.price.sellingprice,
                 totalpriceuzs: product.price.sellingpriceuzs,

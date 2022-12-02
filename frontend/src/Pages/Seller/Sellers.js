@@ -11,7 +11,7 @@ import {
     successAddSellerMessage,
     successUpdateSellerMessage,
     universalToast,
-    warningEmptyInput
+    warningEmptyInput,
 } from './../../Components/ToastMessages/ToastMessages'
 import {useTranslation} from 'react-i18next'
 import {
@@ -20,7 +20,7 @@ import {
     clearSuccessAddSeller,
     clearSuccessUpdateSeller,
     getSellers,
-    updateSeller
+    updateSeller,
 } from './sellerSlice'
 import {useNavigate} from 'react-router-dom'
 import SearchForm from '../../Components/SearchForm/SearchForm'
@@ -35,20 +35,20 @@ function Sellers() {
         sellers,
         loading,
         successAddSelling,
-        successUpdateSelling
+        successUpdateSelling,
     } = useSelector((state) => state.sellers)
-    const {currencyType} = useSelector(state => state.currency)
+    const {currencyType} = useSelector((state) => state.currency)
 
     const {user} = useSelector((state) => state.login)
 
     const headers = [
         {title: '№', styles: 'w-[8%] text-left'},
-        {title: t('Ismi'), styles: 'w-[21%]'},
+        {title: 'Ismi', styles: 'w-[21%]'},
         {title: t('Familiyasi'), styles: 'w-[21%]'},
         {title: t('Telefon raqami'), styles: 'w-[21%]'},
         {title: 'Sotuvlar'},
         {title: 'Summa'},
-        {title: '', styles: 'w-[8%]'}
+        {title: '', styles: 'w-[8%]'},
     ]
 
     const [stickyForm, setStickForm] = useState(false)
@@ -72,35 +72,37 @@ function Sellers() {
         const {failed, message} = checkEmptyString([
             {
                 value: sellerName,
-                message: t('Sotuvchi ismi')
+                message: t('Sotuvchi ismi'),
             },
             {
                 value: sellerSurname,
-                message: t('Sotuvchi familiyasi')
+                message: t('Sotuvchi familiyasi'),
             },
             {
                 value: sellerNumber,
-                message: t('Sotuvchi telefon raqami')
+                message: t('Sotuvchi telefon raqami'),
             },
             {
                 value: sellerLogin,
-                message: t('Sotuvchi logini')
+                message: t('Sotuvchi logini'),
             },
             {
                 value: sellerPassword,
-                message: t('Sotuvchi paroli')
+                message: t('Sotuvchi paroli'),
             },
             {
                 value: sellerAgainPassword,
-                message: t('Sotuvchi parolini tasdiqlash')
-            }
+                message: t('Sotuvchi parolini tasdiqlash'),
+            },
         ])
         if (failed) {
             warningEmptyInput(message)
         } else {
             if (sellerPassword !== sellerAgainPassword) {
                 universalToast(
-                    t('Sotuvchining paroli bilan tasdiqlash paroli mos kelmadi'),
+                    t(
+                        'Sotuvchining paroli bilan tasdiqlash paroli mos kelmadi'
+                    ),
                     'warning'
                 )
             } else {
@@ -112,7 +114,7 @@ function Sellers() {
                     phone: sellerNumber,
                     password: sellerPassword,
                     type: 'Seller',
-                    user: user._id
+                    user: user._id,
                 }
                 dispatch(addSeller(body))
             }
@@ -124,35 +126,37 @@ function Sellers() {
         const {failed, message} = checkEmptyString([
             {
                 value: sellerName,
-                message: t('Sotuvchi ismi')
+                message: t('Sotuvchi ismi'),
             },
             {
                 value: sellerSurname,
-                message: t('Sotuvchi familiyasi')
+                message: t('Sotuvchi familiyasi'),
             },
             {
                 value: sellerNumber,
-                message: t('Sotuvchi telefon raqami')
+                message: t('Sotuvchi telefon raqami'),
             },
             {
                 value: sellerLogin,
-                message: t('Sotuvchi logini')
+                message: t('Sotuvchi logini'),
             },
             {
                 value: sellerPassword,
-                message: t('Sotuvchi paroli')
+                message: t('Sotuvchi paroli'),
             },
             {
                 value: sellerAgainPassword,
-                message: t('Sotuvchi parolini tasdiqlash')
-            }
+                message: t('Sotuvchi parolini tasdiqlash'),
+            },
         ])
         if (failed) {
             warningEmptyInput(message)
         } else {
             if (sellerPassword !== sellerAgainPassword) {
                 universalToast(
-                    t('Sotuvchining paroli bilan tasdiqlash paroli mos kelmadi'),
+                    t(
+                        'Sotuvchining paroli bilan tasdiqlash paroli mos kelmadi'
+                    ),
                     'warning'
                 )
             } else {
@@ -165,7 +169,7 @@ function Sellers() {
                     phone: sellerNumber,
                     password: sellerPassword,
                     type: 'Seller',
-                    user: user._id
+                    user: user._id,
                 }
                 dispatch(updateSeller(body))
             }
@@ -216,10 +220,12 @@ function Sellers() {
     }, [dispatch, errorSellings, successAddSelling, successUpdateSelling])
 
     useEffect(() => {
-        dispatch(getSellers({
-            startDate,
-            endDate
-        }))
+        dispatch(
+            getSellers({
+                startDate,
+                endDate,
+            })
+        )
     }, [dispatch, startDate, endDate])
 
     useEffect(() => {
@@ -234,7 +240,7 @@ function Sellers() {
             exit='collapsed'
             variants={{
                 open: {opacity: 1, height: 'auto'},
-                collapsed: {opacity: 0, height: 0}
+                collapsed: {opacity: 0, height: 0},
             }}
             transition={{duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98]}}
         >
@@ -266,8 +272,7 @@ function Sellers() {
                         maxWidth={'w-[21.75rem]'}
                         type={'text'}
                         border={true}
-                        onKeyPress={() => {
-                        }}
+                        onKeyPress={() => {}}
                     />
                     <FieldContainer
                         value={sellerNumber}
@@ -278,8 +283,7 @@ function Sellers() {
                         placeholder={'+998 99 123 45 67'}
                         type={'number'}
                         border={false}
-                        onKeyPress={() => {
-                        }}
+                        onKeyPress={() => {}}
                     />
                 </div>
 
@@ -294,8 +298,7 @@ function Sellers() {
                         maxWidth={'12.75rem'}
                         type={'text'}
                         border={true}
-                        onKeyPress={() => {
-                        }}
+                        onKeyPress={() => {}}
                     />
                     <FieldContainer
                         value={sellerPassword}
@@ -307,8 +310,7 @@ function Sellers() {
                         maxWidth={'12.75rem'}
                         type={'text'}
                         border={true}
-                        onKeyPress={() => {
-                        }}
+                        onKeyPress={() => {}}
                     />
                     <FieldContainer
                         value={sellerAgainPassword}
@@ -320,8 +322,7 @@ function Sellers() {
                         maxWidth={'12.75rem'}
                         type={'text'}
                         border={false}
-                        onKeyPress={() => {
-                        }}
+                        onKeyPress={() => {}}
                     />
                     <div className={'flex gap-[1.25rem] grow w-[19.5rem]'}>
                         <Button
@@ -342,16 +343,13 @@ function Sellers() {
                 <p>{t('Sotuvchilar')}</p>
             </div>
             <div className='flex w-full'>
-                    <SearchForm
-                        filterBy={[
-                            'startDate',
-                            'endDate',
-                        ]}
-                        startDate={startDate}
-                        setStartDate={setStartDate}
-                        endDate={endDate}
-                        setEndDate={setEndDate}
-                    />
+                <SearchForm
+                    filterBy={['startDate', 'endDate']}
+                    startDate={startDate}
+                    setStartDate={setStartDate}
+                    endDate={endDate}
+                    setEndDate={setEndDate}
+                />
             </div>
             <div className='tableContainerPadding'>
                 {loading ? (

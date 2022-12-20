@@ -320,6 +320,15 @@ module.exports.getClients = async (req, res) => {
         })
         .populate({
           path: 'products',
+          select: 'product',
+          populate: {
+            path: 'product',
+            select: 'category',
+            populate: { path: 'category', select: 'code' },
+          },
+        })
+        .populate({
+          path: 'products',
           select:
             'totalprice unitprice totalpriceuzs unitpriceuzs pieces createdAt discount saleproducts product',
           options: { sort: { createdAt: -1 } },

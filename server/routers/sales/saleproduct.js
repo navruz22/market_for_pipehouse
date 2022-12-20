@@ -619,6 +619,16 @@ module.exports.getsaleconnectors = async (req, res) => {
           populate: { path: 'productdata', select: 'name code' },
         },
       })
+      .populate({
+        path: 'products',
+        select:
+          'totalprice unitprice totalpriceuzs unitpriceuzs pieces createdAt discount saleproducts product',
+        options: { sort: { createdAt: -1 } },
+        populate: {
+          path: 'saleproducts',
+          select: 'pieces totalprice totalpriceuzs',
+        },
+      })
       .populate(
         'payments',
         'payment paymentuzs comment totalprice totalpriceuzs createdAt'
@@ -631,6 +641,7 @@ module.exports.getsaleconnectors = async (req, res) => {
       .populate('packman', 'name')
       .populate('user', 'firstname lastname')
       .populate('dailyconnectors', 'comment')
+      .lean()
       .then((connectors) => {
         return filter(
           connectors,
@@ -667,6 +678,7 @@ module.exports.getsaleconnectors = async (req, res) => {
         id: connector.id,
         products: filterProducts,
         payments: filterPayment,
+        saleconnector: connector,
       };
     });
 

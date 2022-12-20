@@ -122,6 +122,7 @@ const RegisterSelling = () => {
         {title: t('Jami')},
     ]
     // payment
+
     const togglePaymentModal = (bool) => {
         bool
             ? setPaymentModalVisible(!paymentModalVisible)
@@ -761,7 +762,7 @@ const RegisterSelling = () => {
                   )
                 : allProducts.find((obj) => obj._id === option.value)
             if (product.total === 0) return warningCountSellPayment()
-            console.log(product)
+            
             const currentProduct = {
                 total: product.total,
                 product: {
@@ -1253,8 +1254,10 @@ const RegisterSelling = () => {
             })),
         ])
     }, [clients, t])
+    
     useEffect(() => {
         const data = location.state
+        
         const setClientData = () => {
             data.saleconnector.client &&
                 setClientValue({
@@ -1289,6 +1292,7 @@ const RegisterSelling = () => {
                     totalprice: saleProduct.totalprice,
                     totalpriceuzs: saleProduct.totalpriceuzs,
                 }
+
                 map(saleProduct.saleproducts, (product) => {
                     sale.pieces += product.pieces
                     sale.totalprice += product.totalprice

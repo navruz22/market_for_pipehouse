@@ -627,7 +627,7 @@ module.exports.delete = async (req, res) => {
       });
     }
 
-    await ProductData.findByIdAndUpdate(productdata._id, {
+    await ProductData.findByIdAndUpdate(productdata, {
       $pull: {
         products: new ObjectId(_id),
       },
@@ -638,7 +638,7 @@ module.exports.delete = async (req, res) => {
       productData.products.length === 0 &&
       market === productData.market.toString()
     ) {
-      await ProductData.findByIdAndDelete(productdata._id);
+      await ProductData.findByIdAndDelete(productdata);
       await Category.findByIdAndUpdate(category, {
         $pull: {
           products: new ObjectId(productData._id),

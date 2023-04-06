@@ -37,10 +37,21 @@ const ClientsPage = () => {
 
     const headers = [
         {title: '№', styles: 'w-[8%] text-left'},
-        // {title: t('Agent'), styles: 'w-[41%] text-left'},
+        {title: t('Agent'), styles: 'w-[41%] text-left'},
         {title: t('Mijoz'), styles: 'w-[41%] text-left'},
         {title: '', styles: 'w-[8%] text-left'},
     ]
+
+    const [startDate, setStartDate] = useState(
+        new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate()
+        )
+    )
+    const [endDate, setEndDate] = useState(
+        new Date(new Date().setHours(23, 59, 59, 0)).toISOString()
+    )
 
     // states
     const [packmanOptions, setPackmanOptions] = useState([])
@@ -48,6 +59,7 @@ const ClientsPage = () => {
     const [searchedData, setSearchedData] = useState([])
     const [clientName, setClientName] = useState('')
     const [packman, setPackman] = useState(null)
+    const [packmanId, setPackmanId] = useState(null)
     const [currentClient, setCurrentClient] = useState('')
     const [deletedCLients, setDeletedClients] = useState(null)
     const [modalVisible, setModalVisible] = useState(false)
@@ -56,7 +68,6 @@ const ClientsPage = () => {
     const [currentPage, setCurrentPage] = useState(0)
     const [filteredDataTotal, setFilteredDataTotal] = useState(total)
     const [searchByName, setSearchByName] = useState('')
-    const [searchByDelivererName, setSearchByDelivererName] = useState('')
     const [printedSelling, setPrintedSelling] = useState(null)
     const [modalBody, setModalBody] = useState(null)
     // modal toggle
@@ -133,7 +144,6 @@ const ClientsPage = () => {
                 countPage: showByTotal,
                 search: {
                     client: searchByName.replace(/\s+/g, ' ').trim(),
-                    packman: searchByDelivererName.replace(/\s+/g, ' ').trim(),
                 },
             }
             dispatch(addClients(body)).then(({error}) => {
@@ -164,7 +174,6 @@ const ClientsPage = () => {
                 countPage: showByTotal,
                 search: {
                     client: searchByName.replace(/\s+/g, ' ').trim(),
-                    packman: searchByDelivererName.replace(/\s+/g, ' ').trim(),
                 },
             }
             dispatch(updateClients(body)).then(({error}) => {
@@ -181,6 +190,11 @@ const ClientsPage = () => {
         setClientName('')
         setPackman(null)
         setStickyForm(false)
+    }
+
+    // filter by packman
+    const filterByPackman = ({value}) => {
+        setPackmanId(value)
     }
 
     // filter by total
@@ -208,24 +222,6 @@ const ClientsPage = () => {
         }
     }
 
-    const filterByDelivererName = (e) => {
-        let val = e.target.value
-        let valForSearch = val.toLowerCase().replace(/\s+/g, ' ').trim()
-        setSearchByDelivererName(val)
-        ;(searchedData.length > 0 || totalSearched > 0) &&
-            dispatch(clearSearchedClients())
-        if (valForSearch === '') {
-            setData(clients)
-            setFilteredDataTotal(total)
-        } else {
-            const filteredDeliverer = filter(clients, (client) => {
-                return client.packman?.name.toLowerCase().includes(valForSearch)
-            })
-            setData(filteredDeliverer)
-            setFilteredDataTotal(filteredDeliverer.length)
-        }
-    }
-
     const filterByNameWhenPressEnter = (e) => {
         if (e.key === 'Enter') {
             const body = {
@@ -233,7 +229,6 @@ const ClientsPage = () => {
                 countPage: showByTotal,
                 search: {
                     client: searchByName.replace(/\s+/g, ' ').trim(),
-                    packman: searchByDelivererName.replace(/\s+/g, ' ').trim(),
                 },
             }
             dispatch(getClientsByFilter(body))
@@ -252,14 +247,16 @@ const ClientsPage = () => {
         const body = {
             currentPage,
             countPage: showByTotal,
+            startDate,
+            endDate,
             search: {
                 client: searchByName.replace(/\s+/g, ' ').trim(),
-                packman: searchByDelivererName.replace(/\s+/g, ' ').trim(),
+                packman: packmanId,
             },
         }
         dispatch(getClients(body))
         //    eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, showByTotal, currentPage])
+    }, [dispatch, showByTotal, currentPage, startDate, endDate, packmanId])
     useEffect(() => {
         setData(clients)
     }, [clients])
@@ -275,6 +272,7 @@ const ClientsPage = () => {
         })
         setPackmanOptions(options)
     }, [packmans])
+
     return (
         <motion.section
             key='content'
@@ -351,14 +349,24 @@ const ClientsPage = () => {
                 )}
             </div>
             <SearchForm
-                filterBy={['total', 'delivererName', 'clientName']}
+                filterBy={[
+                    'total',
+                    'clientName',
+                    'select',
+                ]}
+                filterByPackman={filterByPackman}
                 filterByTotal={filterByTotal}
                 filterByClientNameWhenPressEnter={filterByNameWhenPressEnter}
                 filterByDelivererNameWhenPressEnter={filterByNameWhenPressEnter}
                 searchByClientName={searchByName}
-                searchByDelivererName={searchByDelivererName}
                 filterByClientName={filterByClientName}
-                filterByDelivererName={filterByDelivererName}
+                searchByPackmans={[
+                    {
+                        label: 'Barchasi',
+                        value: null,
+                    },
+                    ...packmanOptions,
+                ]}
             />
 
             <div className='tableContainerPadding'>

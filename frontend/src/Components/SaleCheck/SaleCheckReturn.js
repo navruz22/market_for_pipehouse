@@ -11,6 +11,7 @@ export const SaleCheckReturn = forwardRef((props, ref) => {
     }
     const {user, market} = useSelector((state) => state.login)
     const {currencyType} = useSelector((state) => state.currency)
+    console.log(product);
     return (
         <div ref={ref} className={'bg-white-900 p-4 rounded-md'}>
             <div className='flex pb-2 justify-between border-b-[0.8px] border-black-700'>

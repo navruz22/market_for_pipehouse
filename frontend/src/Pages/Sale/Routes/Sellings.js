@@ -62,8 +62,9 @@ const Sellings = () => {
         searchedSellings,
         getSellingsLoading,
         total,
-        totalSearched,
+        totalSearched, 
     } = useSelector((state) => state.sellings)
+    const {user, market} = useSelector((state) => state.login)
     const [chooseBody, setChooseBody] = useState('')
     const [data, setData] = useState(sellings)
     const [storeData, setStoreData] = useState(sellings)
@@ -384,6 +385,7 @@ const Sellings = () => {
                         addPlus={addPlus}
                         Sort={filterData}
                         sortItem={sorItem}
+                        sellers={user?.type === 'Seller' ? true : false}
                     />
                 )}
             </div>

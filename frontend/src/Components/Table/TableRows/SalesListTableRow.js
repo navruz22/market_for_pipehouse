@@ -24,7 +24,7 @@ export const SalesListTableRow = ({
 
     const navigate = useNavigate()
     const linkToSale = (saleconnector, returnProducts) => {
-        navigate('/sotuv/sotish', {
+        navigate(`${sellers ? '/' : '/sotuv/sotish'}`, {
             replace: true,
             state: {saleconnector, returnProducts},
         })
@@ -125,7 +125,7 @@ export const SalesListTableRow = ({
                     </td>
 
                     <td className='py-[0.375rem] td border-r-0'>
-                        {sellers ? (
+                        {/* {sellers ? (
                             <div className='flex items-center justify-center gap-[0.625rem]'>
                                 <TableBtn
                                     type={'print'}
@@ -133,7 +133,7 @@ export const SalesListTableRow = ({
                                     onClick={() => Print(saleconnector)}
                                 />
                             </div>
-                        ) : (
+                        ) : ( */}
                             <div className='flex items-center justify-center gap-[0.625rem]'>
                                 <TableBtn
                                     type={'print'}
@@ -156,7 +156,7 @@ export const SalesListTableRow = ({
                                     }
                                 />
                             </div>
-                        )}
+                        {/* )} */}
                     </td>
                 </tr>
             ))}

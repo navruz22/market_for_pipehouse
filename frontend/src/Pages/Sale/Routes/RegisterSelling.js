@@ -1286,11 +1286,11 @@ const RegisterSelling = () => {
             let returned = []
             map(data.saleconnector.products, (saleProduct) => {
                 const sale = {
-                    _id: saleProduct.product._id,
-                    discount: saleProduct.discount && saleProduct.discount,
-                    pieces: saleProduct.pieces,
-                    totalprice: saleProduct.totalprice,
-                    totalpriceuzs: saleProduct.totalpriceuzs,
+                    _id: saleProduct?.product?._id,
+                    discount: saleProduct?.discount && saleProduct?.discount,
+                    pieces: saleProduct?.pieces,
+                    totalprice: saleProduct?.totalprice,
+                    totalpriceuzs: saleProduct?.totalpriceuzs,
                 }
 
                 map(saleProduct.saleproducts, (product) => {
@@ -1304,11 +1304,11 @@ const RegisterSelling = () => {
                         pieces: '',
                         totalpriceuzs: 0,
                         totalprice: 0,
-                        unitprice: saleProduct.unitprice,
-                        unitpriceuzs: saleProduct.unitpriceuzs,
+                        unitprice: saleProduct?.unitprice,
+                        unitpriceuzs: saleProduct?.unitpriceuzs,
                         product: { ...sale },
-                        productdata: { ...saleProduct.product.productdata },
-                        _id: saleProduct._id,
+                        productdata: { ...saleProduct?.product?.productdata },
+                        _id: saleProduct?._id,
                     })
                 return ''
             })
